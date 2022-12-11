@@ -1,10 +1,10 @@
 fileFormatVersion: 2
 guid: 885ff46eae570b64faea5ac33a3d9bc7
-timeCreated: 1458719563
-licenseType: Pro
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - material: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

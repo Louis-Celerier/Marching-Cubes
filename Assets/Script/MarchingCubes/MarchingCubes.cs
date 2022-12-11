@@ -21,7 +21,7 @@ namespace MarchingCubesProject
         /// </summary>
         protected override void March(float x, float y, float z, float[] cube, IList<Vector3> vertList, IList<int> indexList)
         {
-            int i, j, vert, idx;
+			int i, j, vert, idx;
             int flagIndex = 0;
             float offset = 0.0f;
 
