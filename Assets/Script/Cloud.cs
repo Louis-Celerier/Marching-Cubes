@@ -8,7 +8,7 @@ using Common.Unity.Drawing;
 namespace MarchingCubesProject
 {
 
-    //Liste des bruits
+    //Noise list
     public enum NOISE_TYPE { PERLIN, VALUE, SIMPLEX }
 
     public class Cloud : MonoBehaviour
@@ -31,32 +31,26 @@ namespace MarchingCubesProject
         public float surface = 0.2f;
 
         public int width = 300;
-        
-        public int height = 30;
+
+        public int height = 60;
 
         public int depth = 150;
 
-        public bool smoothNormals = false;
-
-        public bool drawNormals = false;
-
-        public bool rotate = false;
+        public bool smoothNormals = true;
 
         private Material an_material;
-        
+
         private NOISE_TYPE an_noiseType;
-        
+
         private int an_seed;
-        
+
         private int an_octaves;
-        
+
         private float an_frequency;
-        
+
         private float an_surface;
-        
+
         private bool an_smoothNormals;
-        
-        private bool an_drawNormals;
 
         private List<GameObject> meshes = new List<GameObject>();
 
@@ -64,7 +58,7 @@ namespace MarchingCubesProject
 
         void Start()
         {
-            //Prise en compte des valeurs de départ des variables editable pour le Update
+            //Take defaults values of editables variables for Update
             an_material = material;
             an_noiseType = noiseType;
             an_seed = seed;
@@ -72,20 +66,19 @@ namespace MarchingCubesProject
             an_frequency = frequency;
             an_surface = surface;
             an_smoothNormals = smoothNormals;
-            an_drawNormals = drawNormals;
 
-            //Initialisation du bruit
+            //Initialisation of the noise
             INoise noise = GetNoise();
             FractalNoise fractal = new FractalNoise(noise, octaves, frequency);
-            
+
             Marching marching = new MarchingCubes();
 
-            //Surface represente la suface du mesh avec le bruit allant de -1 a 1.
-            marching.Surface = surface;            
+            //Surface is the suface of the mesh with the noise go to -1 to 1.
+            marching.Surface = surface;
 
             var voxels = new VoxelArray(width, height, depth);
 
-            //Positionnement des voxels via le bruit.
+            //Put voxels with noise
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -96,7 +89,7 @@ namespace MarchingCubesProject
                         float v = y / (height - 1.0f);
                         float w = z / (depth - 1.0f);
 
-                        voxels[x,y,z] = fractal.Sample3D(u, v, w);
+                        voxels[x, y, z] = fractal.Sample3D(u, v, w);
                     }
                 }
             }
@@ -107,7 +100,7 @@ namespace MarchingCubesProject
 
             marching.Generate(voxels.Voxels, vertexs, indices);
 
-            //Crée des normals a l'aide des voxels.
+            //Create normals with voxels
             if (smoothNormals)
             {
                 for (int i = 0; i < vertexs.Count; i++)
@@ -118,9 +111,9 @@ namespace MarchingCubesProject
                     float v = p.y / (height - 1.0f);
                     float w = p.z / (depth - 1.0f);
 
-                    Vector3 n = voxels.GetNormal(u, v, w);
+                    Vector3 norm = voxels.GetNormal(u, v, w);
 
-                    normals.Add(n);
+                    normals.Add(norm);
                 }
 
                 normalRenderer = new NormalRenderer();
@@ -167,28 +160,26 @@ namespace MarchingCubesProject
 
             mesh.RecalculateBounds();
 
-            GameObject go = new GameObject("Mesh");
-            go.transform.parent = transform;
-            go.AddComponent<MeshFilter>();
-            go.AddComponent<MeshRenderer>();
-            go.GetComponent<Renderer>().material = material;
-            go.GetComponent<MeshFilter>().mesh = mesh;
-            go.transform.localPosition = position;
+            GameObject cloud = new GameObject("Cloud Mesh");
+            
+            cloud.transform.parent = transform;
+            cloud.AddComponent<MeshFilter>();
+            cloud.AddComponent<MeshRenderer>();
+            cloud.GetComponent<Renderer>().material = material;
+            cloud.GetComponent<MeshFilter>().mesh = mesh;
+            cloud.transform.localPosition = position;
 
-            meshes.Add(go);
+            meshes.Add(cloud);
         }
 
         private void Update()
         {
-            if(rotate)
-                transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
-
-            //Relance la modelisation en cas de modification des parametres
+            //Restart if editables variables change
             if (an_material != material || an_noiseType != noiseType || an_seed != seed
                 || an_octaves != octaves || an_frequency != frequency || an_surface != surface
-                || an_smoothNormals != smoothNormals || an_drawNormals != drawNormals)
+                || an_smoothNormals != smoothNormals)
             {
-                for(int i = 0; i < meshes.Count; i++)
+                for (int i = 0; i < meshes.Count; i++)
                 {
                     Destroy(meshes[i]);
                 }
@@ -196,19 +187,5 @@ namespace MarchingCubesProject
             }
 
         }
-
-        private void OnRenderObject()
-        {
-            if(normalRenderer != null && meshes.Count > 0 && drawNormals)
-            {
-                var m = meshes[0].transform.localToWorldMatrix;
-
-                normalRenderer.LocalToWorld = m;
-                normalRenderer.Draw();
-            }
-            
-        }
-
     }
-
 }
