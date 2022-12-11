@@ -1,5 +1,4 @@
 # Génération procédural de nuages
-**Louis CELERIER**
 
 # Principe
 
