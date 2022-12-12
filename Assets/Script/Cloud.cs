@@ -52,9 +52,15 @@ namespace MarchingCubesProject
 
         private bool an_smoothNormals;
 
+        private bool incrSeed = true;
+
+        private bool incrSurface = true;
+
         private List<GameObject> meshes = new List<GameObject>();
 
         private NormalRenderer normalRenderer;
+
+        private float an_time = 0;
 
         void Start()
         {
@@ -185,6 +191,19 @@ namespace MarchingCubesProject
                 }
                 Start();
             }
+
+            /*if(an_time+2 < Time.time) {
+                if(incrSeed) seed++;
+                else seed--;
+
+                if(incrSurface) surface+= 0.1f;
+                else surface-= 0.1f;
+
+                an_time = Time.time;
+            }
+
+            if(seed >= 50 || seed <= 0) incrSeed = !incrSeed;
+            if(surface >= 0.6f || surface <= 0.2f) incrSurface = !incrSurface;*/
 
         }
     }

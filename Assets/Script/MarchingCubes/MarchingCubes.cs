@@ -10,6 +10,7 @@ namespace MarchingCubesProject
     {
 
         private Vector3[] EdgeVertex { get; set; }
+		//private float test = 0;
 
         public MarchingCubes(float surface = 0.0f) : base(surface)
         {
@@ -24,9 +25,20 @@ namespace MarchingCubesProject
 			int i, j, vert, idx;
             int flagIndex = 0;
             float offset = 0.0f;
+			float leng = new Vector3(x-50,y-50,z-50).magnitude;
+			
+			/*int pp = 28;
+			int mg = 30;
+			int pg = 32;
+			
+			if(leng < pp || leng >= pg) test = 1;
 
+			if(leng >= pp && leng <= mg) test = 0.2f;
+
+			if(leng > mg && leng < pg) test = 0.2f;*/
             //Find which vertices are inside of the surface and which are outside
-            for (i = 0; i < 8; i++) if (cube[i] <= Surface) flagIndex |= 1 << i;
+            //for (i = 0; i < 8; i++) if (cube[i] <= test) flagIndex |= 1 << i;
+			for (i = 0; i < 8; i++) if (cube[i] <= Surface) flagIndex |= 1 << i;
 
             //Find which edges are intersected by the surface
             int edgeFlags = CubeEdgeFlags[flagIndex];

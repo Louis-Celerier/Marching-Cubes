@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.04365709, g: 0.044818856, b: 0.05955075, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -235,12 +235,10 @@ MonoBehaviour:
   octaves: 3
   frequency: 0.1
   surface: 0.2
-  width: 300
+  width: 60
   height: 60
-  depth: 150
+  depth: 60
   smoothNormals: 1
-  drawNormals: 0
-  rotate: 0
 --- !u!1 &1698447569
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +374,7 @@ Camera:
   m_GameObject: {fileID: 2070280651}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.36596653, g: 0.754717, b: 0.7452493, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
