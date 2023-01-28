@@ -1,4 +1,4 @@
-# Génération procédural de nuages
+# Génération procédurale de nuages
 
 # Principe
 
